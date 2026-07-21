@@ -25,7 +25,7 @@ Want to learn any math topic, fast? Want to avoid needing to read hundreds or th
 
 9. Replace this variable text with pasted the text from Claude that you copied in step 5
 
-10. Now copy this whole prompt file into ChatGPT and let it run.
+10. Now copy this whole prompt file into ChatGPT and let it run. Don't worry that this prompt looks huge and very long, hundreds of lines or even over a thousand lines. The AI can understand it all just fine.
 
 11. This step creates the prompt that creates the book. This is why I call this a "meta prompt" because we used a prompt that creates another prompt that creates the book. ChatGPT will run for about 5-10 minutes. After it finishes, you will see a very long Python script in the output above. That Python script contains the command to generate the HTML book. Tell ChatGPT "now follow the instructions from your prior output and construct the Reader's Guide HTML book and provide the download link."
 
