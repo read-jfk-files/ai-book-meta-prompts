@@ -1,0 +1,1814 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="A visual Reader's Guide to the classical geometry behind the 2026 three-dimensional Jacobian counterexample: symmetric products, the twisted cubic, ramification, nonproperness, and affine-space recognition.">
+<title>Jacobian Conjecture Hearing the Three Roots — Reader's Guide</title>
+
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$','$'],['\\(','\\)']],
+    displayMath: [['$$','$$'],['\\[','\\]']]
+  },
+  svg: {fontCache:'global'}
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap">
+
+<style>
+:root{
+  --night:#08131f;
+  --night2:#0d2133;
+  --rail:#07111b;
+  --paper:#f7f2e7;
+  --paper2:#fffdf7;
+  --ink:#17202a;
+  --muted:#5b6570;
+  --line:#d7cdbd;
+  --gold:#d2a94f;
+  --cyan:#57c3d8;
+  --violet:#9f8ce0;
+  --rose:#d97a8d;
+  --green:#5ea477;
+  --orange:#d58b45;
+  --red:#b94f56;
+  --shadow:0 16px 44px rgba(3,12,20,.16);
+  --railw:320px;
+  --measure:70ch;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:
+    radial-gradient(circle at 82% 3%,rgba(87,195,216,.09),transparent 28rem),
+    linear-gradient(90deg,var(--night) 0 var(--railw),var(--paper) var(--railw));
+  color:var(--ink);
+  font-family:"Source Serif 4", Georgia, serif;
+  line-height:1.72;
+}
+a{color:#176a7c;text-underline-offset:3px}
+a:hover{color:#8a5f14}
+#progress{
+  position:fixed;z-index:1000;top:0;left:0;height:4px;width:0;
+  background:linear-gradient(90deg,var(--gold),var(--cyan),var(--violet));
+  box-shadow:0 0 14px rgba(87,195,216,.8);
+}
+.rail{
+  position:fixed;inset:0 auto 0 0;width:var(--railw);
+  background:
+    radial-gradient(circle at 20% 8%,rgba(210,169,79,.12),transparent 17rem),
+    linear-gradient(180deg,var(--rail),var(--night2));
+  color:#e8edf1;padding:30px 20px 50px;overflow:auto;z-index:90;
+  border-right:1px solid rgba(255,255,255,.08);
+}
+.rail .brand{font-family:ui-sans-serif,system-ui,sans-serif;margin-bottom:20px}
+.rail .kicker{font-size:.69rem;letter-spacing:.16em;text-transform:uppercase;color:#8fb9c4}
+.rail h1{font-size:1.35rem;line-height:1.12;margin:.4rem 0 .7rem;color:#fff}
+.rail .subtitle{font-size:.82rem;color:#b6c2cb;line-height:1.45}
+#toc{margin-top:20px;border-top:1px solid rgba(255,255,255,.09);padding-top:14px}
+#toc a{
+  display:block;color:#b9c5ce;text-decoration:none;padding:5px 9px;border-left:2px solid transparent;
+  font:500 .76rem/1.25 ui-sans-serif,system-ui,sans-serif;border-radius:0 6px 6px 0;
+}
+#toc a.sub{padding-left:22px;font-size:.7rem}
+#toc a.active{color:#fff;border-left-color:var(--gold);background:rgba(255,255,255,.055);box-shadow:inset 5px 0 12px rgba(210,169,79,.06)}
+.rail .legend{margin-top:22px;padding:12px;border:1px solid rgba(255,255,255,.09);border-radius:10px;color:#aebbc5;font:400 .69rem/1.5 ui-sans-serif,system-ui,sans-serif}
+.mobilebar{display:none}
+main{margin-left:var(--railw);min-height:100vh}
+.hero{
+  color:#f4f7f8;min-height:92vh;display:grid;place-items:center;padding:72px 8vw;
+  background:
+    radial-gradient(circle at 62% 35%,rgba(87,195,216,.16),transparent 18rem),
+    radial-gradient(circle at 38% 60%,rgba(159,140,224,.12),transparent 25rem),
+    linear-gradient(145deg,#0c1f30,#06101a 72%);
+  position:relative;overflow:hidden;
+}
+.hero:before{
+  content:"";position:absolute;inset:0;opacity:.34;pointer-events:none;
+  background-image:
+   radial-gradient(circle,#fff 0 1px,transparent 1.6px),
+   radial-gradient(circle,#d2a94f 0 1px,transparent 1.6px);
+  background-size:73px 73px,119px 119px;background-position:11px 18px,46px 8px;
+}
+.hero-inner{position:relative;max-width:980px}
+.eyebrow{
+  font:600 .74rem/1.3 ui-sans-serif,system-ui,sans-serif;
+  text-transform:uppercase;letter-spacing:.18em;color:#8fd2df
+}
+.hero h1{font-size:clamp(3rem,7vw,6.8rem);line-height:.92;margin:.4rem 0 1rem;letter-spacing:-.045em}
+.hero h1 span{display:block;font-size:.33em;line-height:1.3;letter-spacing:.01em;color:#d8e1e6;margin-top:1rem}
+.hero p{font-size:1.24rem;max-width:62ch;color:#d1dae0}
+.constellation{display:flex;align-items:center;gap:18px;margin:34px 0}
+.star{
+  width:28px;height:28px;border-radius:50%;display:grid;place-items:center;color:#07111b;
+  font:800 .75rem ui-sans-serif,system-ui,sans-serif;box-shadow:0 0 30px currentColor
+}
+.star.a{background:var(--cyan);color:#08222a}
+.star.b{background:var(--violet);color:#18112e}
+.star.c{background:var(--gold);color:#30220b}
+.funnel{height:2px;width:100px;background:linear-gradient(90deg,var(--cyan),var(--violet),var(--gold))}
+.hero .thesis{
+  border:1px solid rgba(255,255,255,.16);border-left:4px solid var(--gold);
+  padding:18px 22px;background:rgba(0,0,0,.19);border-radius:10px;margin-top:25px
+}
+.hero .thesis strong{color:#ffe2a5}
+.content{max-width:1180px;margin:0 auto;padding:70px clamp(24px,6vw,90px) 120px}
+section.chapter{scroll-margin-top:24px;margin:0 auto 90px;max-width:var(--measure)}
+section.chapter.wide{max-width:1040px}
+.part-label{
+  font:700 .72rem/1 ui-sans-serif,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.19em;
+  color:#397487;margin-bottom:10px
+}
+h2{font-size:clamp(2rem,4vw,3.45rem);line-height:1.04;letter-spacing:-.032em;margin:.2rem 0 1.4rem;color:#102232}
+h3{font-size:1.55rem;line-height:1.2;margin:2.5rem 0 .8rem;color:#183246}
+h4{font:700 1.05rem/1.3 ui-sans-serif,system-ui,sans-serif;color:#29465c;margin:2rem 0 .5rem}
+.mantra{
+  font-size:1.23rem;font-style:italic;color:#48535e;margin:-.5rem 0 2rem;
+  border-bottom:1px solid var(--line);padding-bottom:18px
+}
+.lede{font-size:1.16rem;color:#3f4b55}
+.small{font-size:.89rem;color:var(--muted)}
+.mono{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{
+  background:var(--paper2);border:1px solid var(--line);border-radius:13px;padding:18px 20px;
+  box-shadow:0 5px 18px rgba(29,34,42,.05)
+}
+.card h4{margin-top:0}
+hr{border:0;border-top:1px solid var(--line);margin:2.5rem 0}
+table{width:100%;border-collapse:collapse;margin:1.4rem 0;background:rgba(255,255,255,.45)}
+th,td{border:1px solid var(--line);padding:10px 12px;vertical-align:top;text-align:left}
+th{font:700 .78rem/1.3 ui-sans-serif,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.06em;background:#eee6d7}
+.callout{
+  margin:1.7rem 0;padding:18px 20px;border:1px solid var(--line);border-left:5px solid var(--cyan);
+  background:rgba(255,255,255,.62);border-radius:0 12px 12px 0;box-shadow:0 5px 18px rgba(20,32,45,.04)
+}
+.callout .label{
+  display:block;font:800 .69rem/1.2 ui-sans-serif,system-ui,sans-serif;text-transform:uppercase;
+  letter-spacing:.13em;margin-bottom:8px;color:#33576b
+}
+.callout.definition{border-left-color:var(--cyan)}
+.callout.theorem{border-left-color:var(--violet)}
+.callout.key{border-left-color:var(--gold);background:#fff8e9}
+.callout.history{border-left-color:#7891a4;background:#f2f5f6}
+.callout.misconception{border-left-color:var(--orange);background:#fff4e8}
+.callout.failure{border-left-color:var(--red);background:#fff0f0}
+.callout.verified{border-left-color:var(--green);background:#edf8f0}
+.callout.proposed{border-left-color:var(--violet);background:#f5f1ff}
+.callout.check{border-left-color:#7891a4;background:#f4f6f7}
+.callout.open{border-left-color:var(--rose);background:#fff1f5}
+.callout.crux{
+  border:2px solid var(--gold);border-left-width:9px;background:
+   linear-gradient(135deg,#fff4cf,#fffaf0);
+  box-shadow:0 12px 36px rgba(151,105,20,.17);padding:26px 28px
+}
+.callout.crux .label{font-size:.82rem;color:#7d5206}
+.proof{border-left:3px solid #8095a5;padding-left:18px;color:#43505a}
+details{
+  margin:1rem 0;background:#f3ede2;border:1px solid var(--line);border-radius:10px;padding:10px 14px
+}
+summary{cursor:pointer;font:700 .8rem/1.4 ui-sans-serif,system-ui,sans-serif;color:#2a5267}
+.widget{
+  margin:2.2rem 0;background:#081622;color:#eaf0f3;border-radius:18px;padding:22px;
+  box-shadow:var(--shadow);border:1px solid rgba(255,255,255,.1)
+}
+.widget h3{color:#fff;margin:.2rem 0 .3rem}
+.widget p,.widget .small{color:#bdc9d1}
+.widget .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:14px 0}
+.widget button,.widget select,.widget input{
+  font:600 .77rem ui-sans-serif,system-ui,sans-serif;border-radius:8px;border:1px solid #526878;
+  background:#10283a;color:#eef5f7;padding:8px 10px
+}
+.widget button{cursor:pointer}
+.widget button:hover,.widget button:focus{border-color:var(--gold);outline:none}
+.widget input[type="range"]{padding:0}
+.widget input[type="number"]{width:92px}
+.widget .panel{
+  background:#0e2232;border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:14px;margin-top:12px
+}
+.widget .readout{
+  font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.82rem;line-height:1.55;
+  color:#d8e7ed;overflow:auto
+}
+.widget svg{display:block;width:100%;height:auto;background:#091b29;border-radius:12px;border:1px solid rgba(255,255,255,.08)}
+.root-card{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.root-card div{padding:10px;border:1px solid rgba(255,255,255,.13);border-radius:9px;text-align:center;font:600 .76rem ui-sans-serif,system-ui,sans-serif}
+.sheet-a{border-color:var(--cyan)!important}.sheet-b{border-color:var(--violet)!important}.sheet-c{border-color:var(--gold)!important}
+.status-good{color:#8fe0a9}.status-warn{color:#ffbf75}.status-bad{color:#ff8f96}
+.code{
+  background:#101923;color:#e4edf2;border-radius:10px;padding:15px;overflow:auto;
+  font:400 .78rem/1.6 ui-monospace,SFMono-Regular,Consolas,monospace
+}
+.reference{font-size:.88rem}
+.reference li{margin:.65rem 0}
+.footer{
+  margin-left:var(--railw);background:#06101a;color:#aebcc7;padding:45px clamp(24px,6vw,90px);
+  font:400 .8rem/1.6 ui-sans-serif,system-ui,sans-serif
+}
+.footer strong{color:#fff}
+.topology-diagram{
+  display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:center;margin:2rem 0
+}
+.arrow{font-size:2rem;color:#9b7c38}
+.audit-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:.8rem 0}
+.badge{
+  display:inline-block;font:800 .64rem/1 ui-sans-serif,system-ui,sans-serif;text-transform:uppercase;
+  letter-spacing:.11em;border:1px solid;padding:5px 7px;border-radius:999px;margin-right:6px
+}
+.badge.rig{border-color:#4b9870;color:#32724f}.badge.heu{border-color:#b77b3c;color:#8b561d}
+.eq-scroll{overflow-x:auto}
+@media(max-width:980px){
+  body{background:var(--paper)}
+  .rail{transform:translateX(-100%);transition:.25s}
+  .rail.open{transform:translateX(0)}
+  main,.footer{margin-left:0}
+  .mobilebar{
+    display:flex;position:fixed;z-index:95;top:4px;left:0;right:0;height:50px;
+    align-items:center;justify-content:space-between;padding:0 14px;background:#07131e;color:#fff;
+    font:700 .8rem ui-sans-serif,system-ui,sans-serif;border-bottom:1px solid rgba(255,255,255,.1)
+  }
+  .mobilebar button{background:none;color:#fff;border:1px solid #526878;border-radius:7px;padding:6px 9px}
+  .hero{padding-top:100px;min-height:auto}
+  .grid2,.grid3,.audit-row{grid-template-columns:1fr}
+  .root-card{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .content{padding:55px 18px 90px}
+  .hero{padding-left:20px;padding-right:20px}
+  .hero h1{font-size:3.4rem}
+  .widget{padding:15px;border-radius:12px}
+  th,td{padding:7px;font-size:.86rem}
+}
+@media print{
+  body{background:#fff;color:#000}
+  .rail,.mobilebar,#progress,.widget button,.widget input,.widget select{display:none!important}
+  main,.footer{margin-left:0}
+  .hero{min-height:auto;color:#000;background:#fff;padding:30px 0;border-bottom:2px solid #000}
+  .hero:before{display:none}
+  .hero p,.hero .eyebrow,.hero h1 span{color:#000}
+  .content{max-width:none;padding:20px}
+  section.chapter{max-width:none;page-break-before:always}
+  .widget{color:#000;background:#fff;border:1px solid #000;box-shadow:none}
+  .widget p,.widget .small{color:#000}
+  .widget .panel{background:#fff;color:#000}
+  .widget .readout{color:#000}
+  a{color:#000;text-decoration:none}
+}
+</style>
+</head>
+
+<body>
+<div id="progress" aria-hidden="true"></div>
+
+<div class="mobilebar">
+  <span>Hearing the Three Roots</span>
+  <button id="menuBtn" aria-controls="rail" aria-expanded="false">Contents</button>
+</div>
+
+<aside class="rail" id="rail" aria-label="Table of contents">
+  <div class="brand">
+    <div class="kicker">Mathematical Reader's Guide</div>
+    <h1>Hearing the Three Roots</h1>
+    <div class="subtitle">The classical geometry behind a three-dimensional Jacobian counterexample—and the one affine-space claim that must not be waved away.</div>
+  </div>
+  <nav id="toc">
+    <a href="#orientation">0 · Orientation</a>
+    <a href="#affine-projective">1 · Affine & projective space</a>
+    <a href="#cubics-points">2 · A cubic is a point</a>
+    <a href="#twisted-cubic">3 · Twisted cubic</a>
+    <a href="#fibers">4 · Fibers and degree</a>
+    <a href="#ramification">5 · Ramification & discriminant</a>
+    <a href="#properness">6 · Properness & infinity</a>
+    <a href="#etale">7 · Étale maps</a>
+    <a href="#carving">8 · The proposed carving</a>
+    <a href="#euler">9 · Euler accounting</a>
+    <a href="#invariants">10 · Invariant audit</a>
+    <a href="#recognition">11 · Recognizing affine space</a>
+    <a href="#certificate">12 · Exact certificate</a>
+    <a href="#reassembly">13 · Reassembly</a>
+    <a href="#principles">14 · Things to steal</a>
+    <a href="#glossary">Glossary</a>
+    <a href="#reference-card">Reference card</a>
+    <a href="#reading">Reading list</a>
+  </nav>
+  <div class="legend">
+    <strong>Epistemic color code</strong><br>
+    Green = independently checkable certificate.<br>
+    Violet = proposed structural interpretation.<br>
+    Gold = load-bearing crux.<br>
+    Rose = open frontier.
+  </div>
+</aside>
+
+<main>
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Root constellations · three sheets · one dangerous glyph</div>
+    <h1>Hearing the Three Roots
+      <span>A Reader’s Guide to the Proposed Classical Geometry Behind the 2026 Jacobian Counterexample</span>
+    </h1>
+    <p>
+      A cubic is a point of projective three-space. Mark one of its roots and a natural
+      three-sheeted map appears. Remove the finite folds and the remaining map is locally
+      invertible. The decisive question is not where the collision comes from—it comes for free—
+      but whether the carved-out source is really ordinary affine three-space.
+    </p>
+    <div class="constellation" aria-hidden="true">
+      <span class="star a">1</span><span class="funnel"></span>
+      <span class="star b">2</span><span class="funnel"></span>
+      <span class="star c">3</span>
+    </div>
+    <div class="thesis">
+      <strong>Narrative spine.</strong>
+      Root selection supplies the global collision for free; all of the difficulty is relocated
+      into making the spaces around that collision look like ordinary affine space.
+    </div>
+  </div>
+</header>
+
+<div class="content">
+
+<section class="chapter wide" id="orientation">
+  <div class="part-label">Part 0 · Orientation</div>
+  <h2>The story, the symbols, and the audit</h2>
+  <p class="mantra">Backslash deletes; slash usually identifies.</p>
+
+  <p class="lede">
+    There are two stories here, and a trustworthy guide must keep them separate. The first is an
+    exact polynomial certificate: a displayed map \(F:\mathbb C^3\to\mathbb C^3\) has constant
+    Jacobian determinant \(-2\) and sends three different inputs to one output. That alone defeats
+    the Jacobian Conjecture in dimension \(3\). The second is a geometric story proposed to explain
+    why such a map should exist: cubics form \(\mathbb P^3\), choosing one root gives three sheets,
+    repeated roots create folds, and strategic deletion may leave an étale three-to-one map between
+    two copies of affine space.
+  </p>
+
+  <div class="callout verified">
+    <span class="label">Verified certificate</span>
+    Let \(u=1+xy\) and
+    \[
+    \begin{aligned}
+    P&=u^3z+y^2u(4+3xy),\\
+    Q&=y+3xu^2z+3xy^2(4+3xy),\\
+    R&=2x-3x^2y-x^3z.
+    \end{aligned}
+    \]
+    Direct symbolic differentiation gives \(\det J_F=-2\), while
+    \[
+    F\!\left(0,0,-\frac14\right)=
+    F\!\left(1,-\frac32,\frac{13}{2}\right)=
+    F\!\left(-1,\frac32,\frac{13}{2}\right)=
+    \left(-\frac14,0,0\right).
+    \]
+    The determinant identity and the collision are finite algebraic calculations.
+  </div>
+
+  <div class="callout proposed">
+    <span class="label">Proposed interpretation</span>
+    The symmetric-product construction is a compelling classical skeleton for the phenomenon.
+    Its target is visibly \(\mathbb A^3\). Its source is not visibly \(\mathbb A^3\). Unless an
+    explicit isomorphism or a fully applicable recognition theorem is supplied, the source
+    identification remains the load-bearing step rather than routine bookkeeping.
+  </div>
+
+  <h3>0.1 The construction in ordinary English</h3>
+  <ol>
+    <li>A binary cubic is determined by four coefficients up to common scale, hence by a point of \(\mathbb P^3\).</li>
+    <li>Its three roots form an unordered triple of points of \(\mathbb P^1\).</li>
+    <li>If one root is marked, a generic cubic has three possible markings.</li>
+    <li>When roots repeat, some markings fuse. This is ramification.</li>
+    <li>Delete the fused markings upstairs, and the remaining map has no finite critical points.</li>
+    <li>Delete one hyperplane downstairs, obtaining \(\mathbb A^3\).</li>
+    <li>Delete its preimage upstairs. If that open threefold is also \(\mathbb A^3\), one obtains an étale, globally noninjective polynomial self-map of \(\mathbb A^3\).</li>
+  </ol>
+
+  <h3>0.2 Deletion is not quotienting</h3>
+  <div class="grid2">
+    <div class="card">
+      <h4>Deletion</h4>
+      \[
+      X\setminus Z=\{x\in X:x\notin Z\}.
+      \]
+      Points are removed. Nothing is glued to anything else.
+    </div>
+    <div class="card">
+      <h4>Quotient</h4>
+      \[
+      X/{\sim}.
+      \]
+      Different points are declared equivalent and replaced by an equivalence class.
+    </div>
+  </div>
+  <p>
+    The construction uses both operations. The symmetric product
+    \(\operatorname{Sym}^3(\mathbb P^1)=(\mathbb P^1)^3/S_3\) forgets ordering by quotienting.
+    Every backslash in the carved-open spaces means deletion.
+  </p>
+
+  <div class="callout misconception">
+    <span class="label">Misconception</span>
+    “Isomorphic” does not mean merely “the same number of points,” “homeomorphic,”
+    “diffeomorphic,” or “birational.” An algebraic isomorphism must preserve regular functions.
+    Affine-space recognition is difficult precisely because many exotic varieties look ordinary
+    to topology while carrying a different algebra of functions.
+  </div>
+
+  <details>
+    <summary>Checkpoint 0 · Put the chart identity into words</summary>
+    <p>Translate \(\mathbb P^1\setminus\{\infty\}\cong\mathbb A^1\).</p>
+    <p><strong>Solution.</strong> Remove one projective point, say \([1:0]\). On the remaining chart
+    \(v\neq0\), every point has a unique representative \([t:1]\), so the coordinate \(t=u/v\)
+    identifies the chart with the affine line.</p>
+  </details>
+</section>
+
+<section class="chapter" id="affine-projective">
+  <div class="part-label">Part I · Spaces made of polynomials</div>
+  <h2>1 · Affine space, projective space, and infinity</h2>
+  <p class="mantra">Projective space is affine space with all escape directions recorded.</p>
+
+  <h3>1.1 Affine space remembers polynomial functions</h3>
+  <p>
+    Complex affine \(n\)-space is \(\mathbb A^n_{\mathbb C}=\mathbb C^n\), but algebraic geometry
+    remembers more than the underlying set or topology. Its regular functions form the polynomial
+    ring
+    \[
+    \mathcal O(\mathbb A^n)=\mathbb C[x_1,\ldots,x_n].
+    \]
+    A map is algebraic when its coordinate functions are polynomial. An isomorphism must have an
+    algebraic inverse—not merely a continuous or smooth inverse.
+  </p>
+
+  <h3>1.2 Projective space records directions</h3>
+  <p>
+    Projective \(n\)-space is
+    \[
+    \mathbb P^n=(\mathbb C^{n+1}\setminus\{0\})/\mathbb C^\times.
+    \]
+    A point is written \([x_0:\cdots:x_n]\), with
+    \[
+    [x_0:\cdots:x_n]=[\lambda x_0:\cdots:\lambda x_n],\qquad \lambda\neq0.
+    \]
+    Each chart \(x_i\neq0\) is an affine \(n\)-space. The extra projective points are not mystical;
+    they encode directions in which affine coordinates can diverge.
+  </p>
+
+  <div class="callout key">
+    <span class="label">Key idea</span>
+    The pathology of an étale noninjective polynomial map cannot occur through a finite fold.
+    It must be visible in a compactification: some preimage runs toward the projective boundary
+    while its image stays finite.
+  </div>
+
+  <h3>1.3 Hyperplane complements</h3>
+  <div class="callout theorem">
+    <span class="label">Theorem · elementary chart theorem</span>
+    If \(H\subset\mathbb P^n\) is a hyperplane, then
+    \[
+    \mathbb P^n\setminus H\cong\mathbb A^n.
+    \]
+    <p><strong>What it says.</strong> Removing one projective hyperplane opens a standard affine chart.</p>
+    <p><strong>Why it matters.</strong> The target-side identification in the proposed construction is immediate.</p>
+  </div>
+  <p class="proof">
+    <strong>Proof sketch.</strong> After a projective change of coordinates, take
+    \(H=\{x_0=0\}\). Every point outside \(H\) has \(x_0\neq0\) and a unique representative
+    \([1:t_1:\cdots:t_n]\). The coordinates \(t_i=x_i/x_0\) give the isomorphism.
+  </p>
+
+  <h3>1.4 Why compactify first</h3>
+  <p>
+    In affine geometry, parallel lines appear not to meet and roots can “disappear” as coefficients
+    degenerate. In projective geometry, intersection counts remain stable when multiplicity and
+    points at infinity are included. The compactification is a ledger for escape.
+  </p>
+
+  <details>
+    <summary>Checkpoint 1 · Verify a projective chart</summary>
+    <p>Show that \(\mathbb P^2\setminus\{X=0\}\cong\mathbb A^2\).</p>
+    <p><strong>Solution.</strong> Every point has \(X\neq0\), so rescale to \([1:Y/X:Z/X]\).
+    The inverse sends \((s,t)\) to \([1:s:t]\).</p>
+  </details>
+</section>
+
+<section class="chapter wide" id="cubics-points">
+  <h2>2 · A cubic is a point</h2>
+  <p class="mantra">The coefficients are coordinates; the roots are anatomy.</p>
+
+  <h3>2.1 Binary cubics</h3>
+  <p>
+    A binary cubic is
+    \[
+    f(X,Y)=AX^3+BX^2Y+CXY^2+DY^3.
+    \]
+    Multiplying all coefficients by a nonzero scalar does not alter its projective zero set. Thus
+    a nonzero cubic determines a point
+    \[
+    [A:B:C:D]\in\mathbb P^3.
+    \]
+    This is the first load-bearing translation: a polynomial has become a geometric point.
+  </p>
+
+  <h3>2.2 Roots live on \(\mathbb P^1\)</h3>
+  <p>
+    A nonzero linear form \(\ell=uX+vY\) vanishes at one projective point. Over \(\mathbb C\),
+    every cubic factors as
+    \[
+    f=\ell_1\ell_2\ell_3,
+    \]
+    so it determines an unordered triple of points of \(\mathbb P^1\), with repeated factors
+    represented by multiplicity.
+  </p>
+
+  <div class="callout definition">
+    <span class="label">Definition · symmetric product</span>
+    \[
+    \operatorname{Sym}^n(X)=X^n/S_n.
+    \]
+    Its points are unordered \(n\)-tuples \(\{p_1,\ldots,p_n\}\), with repetitions allowed.
+    Algebraic geometers also write the corresponding effective divisor
+    \(p_1+\cdots+p_n\).
+  </div>
+
+  <div class="callout theorem">
+    <span class="label">Classical theorem · roots ↔ coefficients</span>
+    \[
+    \operatorname{Sym}^n(\mathbb P^1)\cong\mathbb P^n.
+    \]
+    <p><strong>What it says.</strong> Unordered degree-\(n\) root data and homogeneous polynomial coefficients are the same parameter space.</p>
+    <p><strong>Why it matters.</strong> \(\operatorname{Sym}^3(\mathbb P^1)\) is exactly the projective space of binary cubics.</p>
+  </div>
+  <p class="proof">
+    <strong>Proof sketch.</strong> Multiply the \(n\) linear forms. Their coefficients are symmetric
+    functions of the roots, so they survive the quotient by \(S_n\). Conversely, factorization over
+    \(\mathbb C\) recovers the multiset of roots.
+  </p>
+
+  <h3>2.3 Mark one root</h3>
+  <p>
+    Define
+    \[
+    \pi:\mathbb P^1\times\operatorname{Sym}^2(\mathbb P^1)
+    \longrightarrow\operatorname{Sym}^3(\mathbb P^1)
+    \]
+    by
+    \[
+    \pi(p,\{q,r\})=\{p,q,r\}.
+    \]
+    The source remembers a cubic together with a designated root. The target forgets the designation.
+    A cubic with distinct roots \(\{p,q,r\}\) has three preimages:
+    \[
+    (p,\{q,r\}),\qquad(q,\{p,r\}),\qquad(r,\{p,q\}).
+    \]
+    The generic degree is therefore \(3\).
+  </p>
+
+  <div class="widget" id="rootWidget">
+    <div class="eyebrow">Interactive widget 1 · primary</div>
+    <h3>The three-root selector</h3>
+    <p>Drag the roots. The cubic coefficients update, the discriminant reacts, and the marked-root fibers reveal exactly where ramification occurs.</p>
+    <div class="controls">
+      <button data-preset="distinct">Three distinct</button>
+      <button data-preset="double">Double root</button>
+      <button data-preset="triple">Triple root</button>
+      <button data-preset="reset">Reset</button>
+    </div>
+    <svg id="rootSvg" viewBox="0 0 800 185" role="img" aria-label="Three draggable roots on a real number line">
+      <line x1="70" y1="100" x2="730" y2="100" stroke="#8095a5" stroke-width="2"/>
+      <g id="ticks"></g>
+      <circle id="root1" r="14" cy="100" fill="#57c3d8" tabindex="0" aria-label="Root one"></circle>
+      <circle id="root2" r="14" cy="100" fill="#9f8ce0" tabindex="0" aria-label="Root two"></circle>
+      <circle id="root3" r="14" cy="100" fill="#d2a94f" tabindex="0" aria-label="Root three"></circle>
+      <text id="label1" y="70" fill="#dce8ed" text-anchor="middle"></text>
+      <text id="label2" y="70" fill="#dce8ed" text-anchor="middle"></text>
+      <text id="label3" y="70" fill="#dce8ed" text-anchor="middle"></text>
+    </svg>
+    <div class="panel readout" id="rootPolynomial"></div>
+    <div class="root-card" id="rootCards"></div>
+    <div class="panel readout" id="rootStatus"></div>
+  </div>
+
+  <details>
+    <summary>Checkpoint 2 · Fibers over repeated roots</summary>
+    <p>List the set-theoretic preimages over \(\{1,1,2\}\).</p>
+    <p><strong>Solution.</strong> They are \((1,\{1,2\})\) and \((2,\{1,1\})\).
+    The first is ramified because the designated root \(1\) also appears in the residual pair.
+    The second is unramified: the marked root \(2\) is distinct from both residual roots.</p>
+  </details>
+</section>
+
+<section class="chapter wide" id="twisted-cubic">
+  <h2>3 · The twisted cubic and the order of kissing</h2>
+  <p class="mantra">Tangency is a double root; osculation is a triple root.</p>
+
+  <h3>3.1 Triple roots trace a curve</h3>
+  <p>
+    The small diagonal consists of cubics whose three roots coincide:
+    \[
+    \Delta_{\mathrm{small}}=\{\{p,p,p\}:p\in\mathbb P^1\}.
+    \]
+    If \(p\) corresponds to the linear form \(uX+vY\), then
+    \[
+    (uX+vY)^3=u^3X^3+3u^2vX^2Y+3uv^2XY^2+v^3Y^3.
+    \]
+    In coefficient coordinates,
+    \[
+    \nu_3([u:v])=[u^3:3u^2v:3uv^2:v^3].
+    \]
+    This degree-\(3\) Veronese curve in \(\mathbb P^3\) is the twisted cubic.
+  </p>
+
+  <div class="callout notation">
+    <span class="label">Notation warning</span>
+    Many books absorb the binomial coefficients and write
+    \([u^3:u^2v:uv^2:v^3]\). The two parametrizations are projectively equivalent,
+    but formulas for hyperplanes and discriminants must use one coefficient convention consistently.
+  </div>
+
+  <h3>3.2 A hyperplane becomes a cubic equation on the curve</h3>
+  <p>
+    A hyperplane \(L(A,B,C,D)=0\) intersects the twisted cubic where
+    \[
+    L(u^3,3u^2v,3uv^2,v^3)=0.
+    \]
+    The right side is a homogeneous cubic in \(u,v\). Therefore the intersection divisor has
+    total degree \(3\), counted with multiplicity:
+    \[
+    p+q+r,\qquad 2p+q,\qquad 3p.
+    \]
+  </p>
+
+  <h3>3.3 Tangent versus osculating</h3>
+  <p>
+    The tangent line at \(p\) remembers first-order motion along the curve. The osculating plane
+    remembers first- and second-order motion. Since a hyperplane in \(\mathbb P^3\) is itself a
+    plane, it can contain the tangent line without equaling the osculating plane.
+  </p>
+
+  <div class="grid3">
+    <div class="card"><h4>Generic</h4><p>Three simple intersection points: \(p+q+r\).</p></div>
+    <div class="card"><h4>Tangent</h4><p>One double point and one simple point: \(2p+q\).</p></div>
+    <div class="card"><h4>Osculating</h4><p>One triple point: \(3p\).</p></div>
+  </div>
+
+  <p>
+    The exact tangent-but-not-osculating model used below is
+    \[
+    H=\{B=0\}.
+    \]
+    Along the twisted cubic, \(B=3u^2v\), so the intersection is \(2[0:1]+[1:0]\).
+    By contrast, \(D=0\) pulls back to \(v^3=0\) and is osculating.
+  </p>
+
+  <div class="widget" id="contactWidget">
+    <div class="eyebrow">Interactive widget 2</div>
+    <h3>The order-of-contact studio</h3>
+    <p>The drawing is schematic; the algebra panel is exact.</p>
+    <div class="controls">
+      <label for="contactSelect">Hyperplane type</label>
+      <select id="contactSelect">
+        <option value="generic">Generic</option>
+        <option value="tangent">Tangent, not osculating</option>
+        <option value="osculating">Osculating</option>
+      </select>
+      <button id="contactReset">Reset</button>
+    </div>
+    <svg viewBox="0 0 800 310" role="img" aria-label="Schematic twisted cubic and hyperplane contact">
+      <path d="M80,240 C210,40 410,270 710,70" fill="none" stroke="#57c3d8" stroke-width="5"/>
+      <path id="contactPlane" d="" fill="rgba(210,169,79,.12)" stroke="#d2a94f" stroke-width="3"/>
+      <circle id="contactPoint" cx="315" cy="149" r="8" fill="#fff"/>
+      <text x="70" y="285" fill="#b9c7d0">schematic projection of the twisted cubic</text>
+      <text id="contactCaption" x="455" y="285" fill="#ffe09a"></text>
+    </svg>
+    <div class="panel readout" id="contactAlgebra"></div>
+  </div>
+
+  <h3>3.4 The tangent developable is the discriminant</h3>
+  <p>
+    A repeated-root cubic has the form \(\ell^2m\). Fixing \(\ell\) and varying \(m\) traces the
+    tangent line at \(\ell^3\). Sweeping over all \(\ell\) produces the tangent developable of the
+    twisted cubic. Thus one classical surface has two names:
+  </p>
+  <div class="callout theorem">
+    <span class="label">Classical identification</span>
+    The quartic surface of binary cubics with a repeated root is the tangent developable of the
+    twisted cubic. Its singular locus is the twisted cubic of triple-root cubics.
+    <p><strong>What it says.</strong> Repeated roots are literally tangency in coefficient space.</p>
+    <p><strong>Why it matters.</strong> The branch locus of root-marking has a concrete classical geometry.</p>
+  </div>
+</section>
+
+<section class="chapter" id="fibers">
+  <div class="part-label">Part II · Maps and their folds</div>
+  <h2>4 · Fibers, degree, and the upstairs metaphor</h2>
+  <p class="mantra">A fiber is the complete answer to “what maps here?”</p>
+
+  <h3>4.1 Fibers</h3>
+  <p>
+    For \(f:X\to Y\), the fiber over \(y\in Y\) is
+    \[
+    f^{-1}(y)=\{x\in X:f(x)=y\}.
+    \]
+    Geometers draw the source upstairs and the target downstairs, then imagine all points above the
+    same target point stacked vertically. The metaphor is only a drawing convention, but it is a
+    powerful one.
+  </p>
+
+  <h3>4.2 Generic degree</h3>
+  <p>
+    A dominant map is generically finite of degree \(d\) if a typical target point has \(d\) preimages.
+    “Generic” means outside a proper lower-dimensional exceptional locus. For root-marking, a cubic
+    with three distinct roots has exactly three markings, so \(\deg\pi=3\).
+  </p>
+
+  <h3>4.3 A space can be fibered in different ways</h3>
+  <p>
+    The map \((x,y)\mapsto x\) fibers \(\mathbb A^2\) into parallel affine lines. The map
+    \((x,y)\mapsto xy\) has hyperbola fibers for nonzero values and a reducible cross at zero.
+    Fibering is a lens chosen by a map, not an intrinsic label permanently attached to a space.
+  </p>
+
+  <details>
+    <summary>Checkpoint 4 · Compare two fiberings</summary>
+    <p>Describe the fibers of \((x,y)\mapsto x\) and \((x,y)\mapsto xy\).</p>
+    <p><strong>Solution.</strong> The first has fibers \(\{x=c\}\cong\mathbb A^1\). The second has
+    \(xy=c\): for \(c\neq0\), the fiber is \(\mathbb G_m\); for \(c=0\), it is the union of the two axes.</p>
+  </details>
+</section>
+
+<section class="chapter wide" id="ramification">
+  <h2>5 · Ramification and the discriminant</h2>
+  <p class="mantra">Ramification is where sheets fuse upstairs; the discriminant is the shadow downstairs.</p>
+
+  <h3>5.1 The root-marking map in coordinates</h3>
+  <p>
+    Represent the designated root by \([u:v]\in\mathbb P^1\) and the residual quadratic by
+    \([a:b:c]\in\mathbb P^2\):
+    \[
+    \ell=uX+vY,\qquad q=aX^2+bXY+cY^2.
+    \]
+    Multiplication gives
+    \[
+    \ell q=uaX^3+(ub+va)X^2Y+(uc+vb)XY^2+vcY^3.
+    \]
+    Hence
+    \[
+    \pi([u:v],[a:b:c])=[ua:ub+va:uc+vb:vc].
+    \]
+  </p>
+
+  <h3>5.2 The ramification equation</h3>
+  <p>
+    The root of \(uX+vY\) is \([v:-u]\). It is also a root of the quadratic exactly when
+    \[
+    q(v,-u)=av^2-buv+cu^2=0.
+    \]
+    Therefore
+    \[
+    R_\pi=\{av^2-buv+cu^2=0\}.
+    \]
+    The equation is quadratic in \((u,v)\) and linear in \((a,b,c)\), so its divisor class in
+    \(\operatorname{Pic}(\mathbb P^1\times\mathbb P^2)\cong\mathbb Z^2\) is \((2,1)\).
+  </p>
+
+  <div class="callout misconception">
+    <span class="label">Do not conflate two collisions</span>
+    If the two residual roots collide while the designated root stays different, the cubic lies on
+    the discriminant downstairs, but that source point need not lie in the ramification divisor of
+    root-marking. Ramification asks whether the <em>marked</em> root collides with a residual root.
+  </div>
+
+  <h3>5.3 The discriminant downstairs</h3>
+  <p>
+    For
+    \[
+    f(t)=At^3+Bt^2+Ct+D,
+    \]
+    the discriminant is
+    \[
+    \Delta=
+    B^2C^2-4AC^3-4B^3D-27A^2D^2+18ABCD.
+    \]
+    It vanishes exactly when the cubic has a repeated root. This quartic equation defines the branch
+    surface in \(\mathbb P^3\).
+  </p>
+
+  <h3>5.4 What deletion does to fibers</h3>
+  <p>
+    Remove \(R_\pi\) from the source. Over a double-root cubic \(\{p,p,q\}\), the ramified marking
+    \((p,\{p,q\})\) disappears, while the unramified marking \((q,\{p,p\})\) can remain. Over a
+    triple-root cubic, every marking is ramified, so the remaining fiber is empty.
+  </p>
+
+  <div class="callout key">
+    <span class="label">Key idea</span>
+    After deleting ramification, the restricted map has no finite fold, yet its number of finite
+    preimages can vary because deleted points and boundary points are no longer part of the space.
+  </div>
+</section>
+
+<section class="chapter" id="properness">
+  <h2>6 · Properness and the escape to infinity</h2>
+  <p class="mantra">If sheets cannot collide, they can disappear only through the boundary.</p>
+
+  <h3>6.1 Local invertibility does not settle global behavior</h3>
+  <p>
+    A nonzero Jacobian determinant invokes the inverse function theorem at every finite point.
+    Nearby, the map has an inverse. Globally, however, distant points may share an image, and
+    preimages may run away to infinity.
+  </p>
+
+  <h3>6.2 Proper local homeomorphisms are coverings</h3>
+  <div class="callout theorem">
+    <span class="label">Topological rigidity principle</span>
+    A proper local homeomorphism is a covering map under standard local compactness hypotheses.
+    A connected covering of a simply connected space has one sheet.
+    <p><strong>What it says.</strong> Properness prevents sheets from appearing or vanishing.</p>
+    <p><strong>Why it matters.</strong> Since \(\mathbb C^n\) is simply connected, a connected proper étale map to affine space would be an isomorphism.</p>
+  </div>
+
+  <h3>6.3 Properness as “no bounded output from escaping input”</h3>
+  <p>
+    A map is proper if compact sets have compact preimages. The most useful mental test is
+    sequential: inputs should not leave every compact set while their outputs remain bounded.
+  </p>
+  <p>
+    The toy map
+    \[
+    g(x,y)=(x,xy)
+    \]
+    is not proper, because
+    \[
+    g\!\left(\frac1n,n\right)=\left(\frac1n,1\right)\longrightarrow(0,1)
+    \]
+    while \((1/n,n)\) escapes to infinity.
+  </p>
+
+  <div class="callout failure">
+    <span class="label">Failure mode</span>
+    <strong>Forbidden by étaleness:</strong> two finite sheets merge, forcing a critical point.<br>
+    <strong>Allowed by nonproperness:</strong> a finite preimage moves out through infinity while the image converges.
+  </div>
+
+  <h3>6.4 Where the old intuition broke</h3>
+  <p>
+    The intuition behind the Jacobian Conjecture was locally sound: no finite fold is possible.
+    The mistake was assuming that polynomiality made nonproper escape impossible. The counterexample
+    demonstrates that affine infinity has enough structure to hide a missing sheet.
+  </p>
+</section>
+
+<section class="chapter" id="etale">
+  <h2>7 · Étale maps and the unit lemma</h2>
+  <p class="mantra">Étale means locally algebraically invisible; infinity is where global trouble can hide.</p>
+
+  <h3>7.1 Étale in the smooth equal-dimensional case</h3>
+  <p>
+    For a morphism between smooth varieties of the same dimension, invertibility of the differential
+    is the local criterion for étaleness. For a polynomial self-map \(F\) of affine space,
+    \[
+    F\text{ étale}\quad\Longleftrightarrow\quad \det J_F\text{ vanishes nowhere}.
+    \]
+    Étale maps have no infinitesimal folds or branches at finite points.
+  </p>
+
+  <h3>7.2 The unit lemma</h3>
+  <div class="callout theorem">
+    <span class="label">Unit lemma</span>
+    The only units of \(\mathbb C[x_1,\ldots,x_n]\) are nonzero constants.
+    Consequently, a nowhere-vanishing polynomial on \(\mathbb A^n_{\mathbb C}\) is constant.
+    <p><strong>What it says.</strong> Polynomial functions on affine space cannot vary forever while avoiding zero.</p>
+    <p><strong>Why it matters.</strong> Any étale polynomial self-map automatically has constant nonzero Jacobian determinant.</p>
+  </div>
+  <p class="proof">
+    <strong>Proof sketch.</strong> If \(fg=1\) in a polynomial ring, then
+    \(\deg f+\deg g=0\), so both have degree \(0\). Equivalently, a nonconstant polynomial generates
+    a proper ideal and has a zero on some algebraic extension by the Nullstellensatz framework.
+  </p>
+
+  <h3>7.3 The post-counterexample formulation</h3>
+  <p>
+    The former Jacobian Conjecture asserted that every étale polynomial self-map of affine \(n\)-space
+    in characteristic zero is an automorphism. The explicit three-dimensional certificate makes the
+    statement false for every \(n\ge3\) by adjoining identity coordinates. The plane case remains a
+    separate open problem.
+  </p>
+
+  <details>
+    <summary>Checkpoint 7 · Why the unit lemma fails on a punctured line</summary>
+    <p>Explain why \(x\) is a unit on \(\mathbb A^1\setminus\{0\}\).</p>
+    <p><strong>Solution.</strong> Its inverse \(1/x\) is regular on the punctured line. The coordinate
+    ring is \(\mathbb C[x,x^{-1}]\), whose units include \(cx^m\). Deletion changes the ring of regular functions.</p>
+  </details>
+</section>
+
+<section class="chapter wide" id="carving">
+  <div class="part-label">Part III · The proposed carving</div>
+  <h2>8 · Choosing the hyperplane</h2>
+  <p class="mantra">The correct cut creates one exceptional fiber without breaking the wrong boundary.</p>
+
+  <h3>8.1 The target is easy</h3>
+  <p>
+    Choose the tangent-but-not-osculating hyperplane
+    \[
+    H=\{B=0\}\subset\mathbb P^3.
+    \]
+    Then
+    \[
+    Y=\mathbb P^3\setminus H\cong\mathbb A^3.
+    \]
+    No recognition problem occurs downstairs.
+  </p>
+
+  <h3>8.2 Pull the hyperplane upstairs</h3>
+  <p>
+    Since the \(B\)-coefficient of \(\ell q\) is \(ub+va\),
+    \[
+    \pi^{-1}(H)=\{ub+va=0\}.
+    \]
+    Its divisor class is \((1,1)\). Define
+    \[
+    X=(\mathbb P^1\times\mathbb P^2)\setminus
+    \left(
+      \{av^2-buv+cu^2=0\}\cup\{ub+va=0\}
+    \right).
+    \]
+  </p>
+
+  <h3>8.3 Fiberwise picture</h3>
+  <p>
+    Fix \([u:v]\in\mathbb P^1\). Both deleted equations are linear in \([a:b:c]\), so each cuts a
+    line in the \(\mathbb P^2\) fiber. Generically the lines are distinct. At one tangency parameter
+    they coincide. That single coincidence changes the fiber complement from
+    \(\mathbb G_m\times\mathbb A^1\) to \(\mathbb A^2\).
+  </p>
+
+  <h3>8.4 The complete-intersection form of the recognition problem</h3>
+  <p>
+    Let
+    \[
+    h=av+bu,\qquad r=av^2-buv+cu^2.
+    \]
+    Their bidegrees are \((1,1)\) and \((2,1)\). The class matrix is unimodular:
+    \[
+    \det\begin{pmatrix}1&1\\2&1\end{pmatrix}=-1.
+    \]
+    In Cox coordinates, the two torus scalings can therefore be normalized by \(h=1\) and \(r=1\).
+    The geometric recognition question sharpens to the explicit ring question
+    \[
+    \mathbb C[u,v,a,b,c]/
+    (av+bu-1,\ av^2-buv+cu^2-1)
+    \stackrel{?}{\cong}
+    \mathbb C[s,t,w].
+    \]
+  </p>
+
+  <div class="callout crux">
+    <span class="label">The one glyph</span>
+    \[
+    X\cong\mathbb A^3.
+    \]
+    Everything before this point constructs a natural three-sheeted map and removes its finite
+    ramification. The target identification \(Y\cong\mathbb A^3\) is a routine hyperplane chart.
+    The source identification is not routine. If explicit mutually inverse algebraic coordinates
+    establish it, the skeleton produces an étale noninjective polynomial self-map of affine
+    three-space. If not, the skeleton remains a persuasive model rather than a completed derivation.
+    Euler characteristic, point counts, homology, or a trivial Picard group cannot substitute for
+    these coordinates.
+  </div>
+
+  <div class="callout proposed">
+    <span class="label">Audit rule</span>
+    Never accept a one-way rational parametrization as an affine isomorphism without checking
+    denominators and producing a regular inverse. A genuine certificate consists of mutually inverse
+    regular maps or an applicable recognition theorem whose hypotheses are verified line by line.
+  </div>
+</section>
+
+<section class="chapter wide" id="euler">
+  <h2>9 · Euler characteristic as an accounting system</h2>
+  <p class="mantra">Euler characteristic does not mutate; we compare different spaces.</p>
+
+  <h3>9.1 Compactly supported Euler characteristic</h3>
+  <p>
+    For complex algebraic varieties, \(\chi_c\) is additive under deletion and multiplicative in
+    suitably stratified fibrations:
+    \[
+    \chi_c(X)=\chi_c(X\setminus Z)+\chi_c(Z).
+    \]
+    Useful values are
+    \[
+    \chi_c(\mathbb A^n)=1,\qquad
+    \chi_c(\mathbb P^n)=n+1,\qquad
+    \chi_c(\mathbb G_m)=0.
+    \]
+  </p>
+
+  <h3>9.2 Two lines versus one</h3>
+  <p>
+    For distinct projective lines \(L_1,L_2\subset\mathbb P^2\),
+    \[
+    \mathbb P^2\setminus(L_1\cup L_2)\cong\mathbb G_m\times\mathbb A^1,
+    \]
+    hence \(\chi_c=0\). If the two lines coincide,
+    \[
+    \mathbb P^2\setminus L\cong\mathbb A^2,
+    \]
+    hence \(\chi_c=1\).
+  </p>
+
+  <h3>9.3 The fine-tuning calculation</h3>
+  <p>
+    Over all but one point of the base \(\mathbb P^1\), the fiber has \(\chi_c=0\). At the one
+    tangency point, the fiber has \(\chi_c=1\). Therefore
+    \[
+    \chi_c(X)=1.
+    \]
+    This is necessary for \(X\cong\mathbb A^3\), but far from sufficient.
+  </p>
+
+  <div class="widget" id="eulerWidget">
+    <div class="eyebrow">Interactive widget 3</div>
+    <h3>Deletion and Euler accounting lab</h3>
+    <div class="controls">
+      <label for="eulerSelect">Boundary type</label>
+      <select id="eulerSelect">
+        <option value="generic">Generic hyperplane</option>
+        <option value="tangent" selected>Tangent, not osculating</option>
+        <option value="osculating">Osculating model</option>
+      </select>
+      <label><input type="checkbox" id="finiteToggle"> finite-field count</label>
+      <label for="qRange">q</label>
+      <input id="qRange" type="range" min="2" max="19" value="5">
+      <span id="qValue">5</span>
+      <button id="eulerReset">Reset</button>
+    </div>
+    <svg viewBox="0 0 800 330" role="img" aria-label="Schematic projective plane fiber with deleted lines">
+      <polygon points="150,270 400,45 650,270" fill="rgba(255,255,255,.035)" stroke="#8095a5" stroke-width="2"/>
+      <line id="lineA" x1="240" y1="245" x2="500" y2="90" stroke="#57c3d8" stroke-width="7"/>
+      <line id="lineB" x1="300" y1="265" x2="570" y2="120" stroke="#d2a94f" stroke-width="7"/>
+      <text x="150" y="305" fill="#b9c7d0">schematic \(\mathbb P^2\) fiber</text>
+      <text id="fiberCaption" x="455" y="305" fill="#ffe09a"></text>
+    </svg>
+    <div class="panel readout" id="eulerReadout"></div>
+  </div>
+
+  <div class="callout check">
+    <span class="label">Consistency check, not proof</span>
+    Over \(\mathbb F_q\), the tangent model’s special fiber contributes \(q^2\), while each of the
+    other \(q\) base points contributes \(q^2-q\):
+    \[
+    q^2+q(q^2-q)=q^3.
+    \]
+    A point count matching affine three-space is striking. It is still not a coordinate system.
+  </div>
+
+  <div class="callout misconception">
+    <span class="label">Important refinement</span>
+    The coarse Euler count need not distinguish tangent contact from osculating contact. In an
+    osculating coordinate model such as \(D=0\), the pullback is \(vc=0\), which is reducible.
+    The boundary divisor and unit structure change. That finer algebraic geometry—not Euler
+    characteristic alone—is what separates the cases.
+  </div>
+</section>
+
+<section class="chapter" id="invariants">
+  <h2>10 · Divisors, units, homology, and the invariant audit</h2>
+  <p class="mantra">Matching invariants means only that the suspect has passed another test.</p>
+
+  <h3>10.1 Divisor classes</h3>
+  <p>
+    The Picard group of \(\mathbb P^1\times\mathbb P^2\) is
+    \[
+    \operatorname{Pic}(\mathbb P^1\times\mathbb P^2)\cong\mathbb ZH_1\oplus\mathbb ZH_2.
+    \]
+    The deleted divisors have classes
+    \[
+    [R_\pi]=(2,1),\qquad [\pi^{-1}(H)]=(1,1).
+    \]
+    Their determinant is \(1\), so they generate the whole Picard group. The divisor exact sequence
+    then suggests \(\operatorname{Pic}(X)=0\) and no nonconstant units—both consistent with
+    \(\mathbb A^3\).
+  </p>
+
+  <h3>10.2 Why invariant matching cannot certify identity</h3>
+  <p>
+    An invariant is designed to remain unchanged under isomorphism. Therefore different invariant
+    values disprove an isomorphism. Equal values do not reverse the implication. Two nonisomorphic
+    spaces may share many invariants.
+  </p>
+
+  <table>
+    <thead><tr><th>Test</th><th>What it can detect</th><th>What it can miss</th></tr></thead>
+    <tbody>
+      <tr><td>Dimension, smoothness</td><td>Gross incompatibility</td><td>Most exotic structures</td></tr>
+      <tr><td>\(\chi_c\), point counts</td><td>Additive/motivic differences</td><td>Coordinate-ring structure</td></tr>
+      <tr><td>Units, Picard group</td><td>Boundary and divisor distinctions</td><td>Many contractible varieties</td></tr>
+      <tr><td>Homology</td><td>Large topological differences</td><td>Fundamental group and algebraic structure</td></tr>
+      <tr><td>Makar-Limanov invariant</td><td>Additive group-action rigidity</td><td>Some stabilized exotic spaces</td></tr>
+      <tr><td>Explicit ring isomorphism</td><td>The actual affine coordinates</td><td>Nothing relevant—this is decisive</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout key">
+    <span class="label">Adversarial invariant workflow</span>
+    List every computable invariant; try to kill the claimed isomorphism with each; vary each
+    peculiar hypothesis; identify the assumption that makes an obstruction disappear; then stop.
+    The disappearance of every known obstruction locates the load-bearing wall—it does not remove it.
+  </div>
+</section>
+
+<section class="chapter wide" id="recognition">
+  <div class="part-label">Part IV · Recognizing affine space</div>
+  <h2>11 · Affine space is easy to write down and hard to recognize</h2>
+  <p class="mantra">Looking like affine space is not the same as having affine coordinates.</p>
+
+  <h3>11.1 The surface warning from Ramanujam</h3>
+  <div class="callout theorem">
+    <span class="label">Ramanujam’s characterization · 1971</span>
+    A smooth complex affine surface that is contractible and simply connected at infinity is
+    isomorphic to \(\mathbb A^2_{\mathbb C}\).
+    <p><strong>What it says.</strong> Ordinary topology plus controlled topology at infinity can recognize the affine plane.</p>
+    <p><strong>Why it matters.</strong> “At infinity” is not an optional afterthought; it is part of the recognition data.</p>
+  </div>
+  <p>
+    Contractibility alone is not enough. Ramanujam also constructed a smooth contractible affine
+    surface not isomorphic to \(\mathbb A^2\). Its obstruction lies in the topology at infinity.
+  </p>
+
+  <h3>11.2 The Russell cubic threefold</h3>
+  <p>
+    The Russell cubic
+    \[
+    \mathcal R=\{x+x^2y+z^2+t^3=0\}\subset\mathbb A^4
+    \]
+    is smooth and contractible, yet not algebraically isomorphic to \(\mathbb A^3\).
+    The decisive fingerprint is the Makar-Limanov invariant
+    \[
+    \operatorname{ML}(X)=\bigcap_D\ker D,
+    \]
+    where \(D\) ranges over locally nilpotent derivations.
+  </p>
+  <p>
+    For affine three-space,
+    \[
+    \operatorname{ML}(\mathbb A^3)=\mathbb C,
+    \]
+    while for the Russell cubic,
+    \[
+    \operatorname{ML}(\mathcal R)=\mathbb C[x].
+    \]
+    Every algebraic additive flow on the Russell cubic must preserve \(x\); affine space has far more
+    translation directions.
+  </p>
+
+  <h3>11.3 Cancellation</h3>
+  <p>
+    Zariski cancellation asks whether
+    \[
+    X\times\mathbb A^1\cong\mathbb A^{n+1}
+    \quad\Longrightarrow\quad
+    X\cong\mathbb A^n.
+    \]
+    The answer is negative in positive characteristic in dimensions at least \(3\), through work of
+    Asanuma and Gupta. The characteristic-zero three-dimensional affine-space case remains central
+    and unresolved.
+  </p>
+
+  <h3>11.4 Coordinate hypersurfaces</h3>
+  <p>
+    The Abhyankar–Sathaye problem asks, roughly, whether a hypersurface whose quotient coordinate
+    ring is a polynomial ring must come from a coordinate after an ambient automorphism. It belongs
+    to the same family of questions: when does an algebraic presentation merely disguise standard
+    affine space?
+  </p>
+
+  <div class="callout open">
+    <span class="label">Open frontier</span>
+    In dimensions at least \(3\), smoothness, contractibility, trivial divisor theory, and familiar
+    point counts may all coexist with exotic algebraic structure. The universally convincing
+    certificate remains explicit affine coordinates with an explicit regular inverse.
+  </div>
+
+  <h3>11.5 What would settle the source claim</h3>
+  <div class="grid2">
+    <div class="card">
+      <h4>Decisive</h4>
+      <ul>
+        <li>An explicit ring isomorphism with \(\mathbb C[s,t,w]\).</li>
+        <li>Mutually inverse regular maps \(X\rightleftarrows\mathbb A^3\).</li>
+        <li>A recognition theorem whose hypotheses are checked exactly.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Not decisive</h4>
+      <ul>
+        <li>\(\chi_c(X)=1\).</li>
+        <li>\(\#X(\mathbb F_q)=q^3\).</li>
+        <li>Trivial Picard group or homology.</li>
+        <li>Contractibility or birationality.</li>
+        <li>A rational parametrization with unchecked denominators.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="chapter wide" id="certificate">
+  <div class="part-label">Part V · The explicit counterexample</div>
+  <h2>12 · From a global idea to a finite certificate</h2>
+  <p class="mantra">Discovery may be global and conceptual; verification can collapse to two identities.</p>
+
+  <h3>12.1 The map</h3>
+  <p>
+    Put \(u=1+xy\). Define \(F=(P,Q,R)\) by
+    \[
+    \begin{aligned}
+    P&=u^3z+y^2u(4+3xy),\\
+    Q&=y+3xu^2z+3xy^2(4+3xy),\\
+    R&=2x-3x^2y-x^3z.
+    \end{aligned}
+    \]
+    The component degrees are \((7,6,4)\).
+  </p>
+
+  <h3>12.2 The determinant identity</h3>
+  <p>
+    Form
+    \[
+    J_F=
+    \begin{pmatrix}
+    P_x&P_y&P_z\\
+    Q_x&Q_y&Q_z\\
+    R_x&R_y&R_z
+    \end{pmatrix}.
+    \]
+    Exact symbolic expansion and simplification gives
+    \[
+    \det J_F\equiv -2.
+    \]
+    Sampling can build confidence; only the polynomial identity proves constancy.
+  </p>
+
+  <h3>12.3 The collision identity</h3>
+  <p>
+    Exact substitution gives
+    \[
+    F\!\left(0,0,-\frac14\right)=
+    F\!\left(1,-\frac32,\frac{13}{2}\right)=
+    F\!\left(-1,\frac32,\frac{13}{2}\right)=
+    \left(-\frac14,0,0\right).
+    \]
+    An invertible function must be injective. Therefore this one collision defeats the conjectured
+    global inverse.
+  </p>
+
+  <div class="widget" id="certificateWidget">
+    <div class="eyebrow">Interactive widget 4</div>
+    <h3>The finite certificate console</h3>
+    <p>Numerically inspect the map and Jacobian. Then reveal the exact symbolic identities.</p>
+    <div class="controls">
+      <label>x <input type="number" id="cx" value="0" step="0.25"></label>
+      <label>y <input type="number" id="cy" value="0" step="0.25"></label>
+      <label>z <input type="number" id="cz" value="-0.25" step="0.25"></label>
+      <button id="evalCert">Evaluate</button>
+      <button id="revealCert">Reveal exact identity</button>
+      <button id="collisionCert">Verify three collisions</button>
+      <button id="resetCert">Reset</button>
+    </div>
+    <div class="panel readout" id="certReadout"></div>
+  </div>
+
+  <h3>12.4 Why higher dimensions follow</h3>
+  <p>
+    For \(n>3\), append unchanged coordinates:
+    \[
+    F_n(x_1,\ldots,x_n)=
+    \bigl(F(x_1,x_2,x_3),x_4,\ldots,x_n\bigr).
+    \]
+    The Jacobian matrix is block diagonal, so
+    \[
+    \det J_{F_n}=-2,
+    \]
+    and the same collision persists. This is the safe, immediate route to all \(n\ge3\).
+  </p>
+
+  <div class="callout verified">
+    <span class="label">Certificate-first epistemics</span>
+    The discovery may involve moduli spaces, compactification, ramification, invariant audits, and
+    computer-assisted search. The finished disproof does not inherit that complexity. It compresses
+    to a determinant identity and a witness collision.
+  </div>
+</section>
+
+<section class="chapter wide" id="reassembly">
+  <h2>13 · The entire story reassembled</h2>
+  <p class="mantra">The collision is free. The ambient affine space is expensive.</p>
+
+  <table>
+    <thead><tr><th>Line</th><th>Meaning</th><th>Role</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>\(\operatorname{Sym}^3(\mathbb P^1)\cong\mathbb P^3\)</td>
+        <td>Unordered cubic roots equal cubic coefficient space.</td>
+        <td>Classical identification</td>
+      </tr>
+      <tr>
+        <td>\(\pi(p,\{q,r\})=\{p,q,r\}\)</td>
+        <td>Forget which root was marked.</td>
+        <td>Three-to-one collision mechanism</td>
+      </tr>
+      <tr>
+        <td>Delete \(R_\pi\)</td>
+        <td>Remove finite root collisions involving the marked root.</td>
+        <td>Remove the non-étale locus</td>
+      </tr>
+      <tr>
+        <td>Choose tangent \(H\)</td>
+        <td>Create one exceptional fiber and favorable boundary classes.</td>
+        <td>Fine-tuned geometry</td>
+      </tr>
+      <tr>
+        <td>\(Y=\mathbb P^3\setminus H\cong\mathbb A^3\)</td>
+        <td>A hyperplane complement is an affine chart.</td>
+        <td>Routine</td>
+      </tr>
+      <tr>
+        <td>\(X\cong\mathbb A^3\)</td>
+        <td>The carved source has global polynomial coordinates.</td>
+        <td><strong>The load-bearing theorem</strong></td>
+      </tr>
+      <tr>
+        <td>\(\pi|_X:X\to Y\)</td>
+        <td>An étale map with inherited multi-sheet behavior.</td>
+        <td>Would yield the conceptual counterexample</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>13.1 What remains true if the skeleton fails</h3>
+  <p>
+    The explicit polynomial map remains a counterexample even if the proposed identification
+    \(X\cong\mathbb A^3\) is later rejected, modified, or replaced. The geometric skeleton is
+    explanatory mathematics, not a logical dependency of the finite certificate.
+  </p>
+
+  <h3>13.2 The precise loophole</h3>
+  <p>
+    Constant Jacobian eliminates finite ramification. It does not guarantee properness. The missing
+    sheet is not hiding at a finite critical point; it escapes through the boundary of an affine
+    compactification.
+  </p>
+
+  <div class="topology-diagram">
+    <div class="card"><strong>Local picture</strong><br>No folds, invertible differential, local inverse.</div>
+    <div class="arrow">→</div>
+    <div class="card"><strong>Global picture</strong><br>Nonproper escape, changing finite fiber count, collision elsewhere.</div>
+  </div>
+
+  <h3>13.3 Why the plane may resist</h3>
+  <p>
+    No single slogan is yet a theorem of explanation. Plausible structural differences include the
+    stronger classification theory of affine surfaces, less room for boundary configurations, and
+    tighter restrictions on polynomial maps of the plane. The correct statement is simply that the
+    explicit three-dimensional disproof does not settle dimension \(2\).
+  </p>
+
+  <div class="callout key">
+    <span class="label">Final mental model</span>
+    Roots \(\to\) coefficients \(\to\) mark one root \(\to\) three sheets \(\to\) repeated roots
+    \(\to\) ramification \(\to\) delete finite folds \(\to\) étale map \(\to\) delete a hyperplane
+    \(\to\) affine target \(\to\) recognize the source \(\to\) the one glyph.
+  </div>
+</section>
+
+<section class="chapter wide" id="principles">
+  <div class="part-label">Part VI · Things to steal</div>
+  <h2>14 · General problem-solving principles</h2>
+
+  <h3>14.1 Difficulty relocation</h3>
+  <p>
+    Reframing does not destroy hardness; it moves hardness into a different category. Here, the
+    universal problem “understand every constant-Jacobian map” becomes the concrete problem
+    “recognize one particular open threefold.” The new problem may still be hard, but it is
+    existential, explicit, and attackable with coordinates.
+  </p>
+  <div class="callout history">
+    <span class="label">Historical parallel</span>
+    Shor’s algorithm relocates factoring into period finding, where the quantum Fourier transform is
+    an available weapon.
+  </div>
+  <p><span class="badge heu">Bridge — heuristic</span>
+    In a spectral approach to primes, name exactly where the arithmetic difficulty lands:
+    constructing an operator, proving self-adjointness, controlling the spectrum, or decoding
+    eigenvalues. “Spectral” is useful only when the relocated obstruction is explicit.</p>
+
+  <h3>14.2 Inherit the pathology; fight for the ambient space</h3>
+  <p>
+    The three-to-one ambiguity is tautological on the marked-root space. The construction does not
+    laboriously manufacture a collision. It finds a moduli space where collision is built in, then
+    spends effort standardizing the ambient spaces.
+  </p>
+
+  <h3>14.3 Fine-tuned hypotheses map the mechanism</h3>
+  <p>
+    “Tangent but not osculating” is a fingerprint. It produces the intersection divisor \(2p+q\),
+    one exceptional fiber, and a favorable irreducible boundary configuration. Strange hypotheses
+    should be reverse-engineered first; they often tell you where the machine is hidden.
+  </p>
+
+  <h3>14.4 Invariant matching as adversarial procedure</h3>
+  <ol>
+    <li>Enumerate all computable invariants.</li>
+    <li>Try to disprove the claimed equivalence with each.</li>
+    <li>Vary every suspicious assumption.</li>
+    <li>Watch which invariant fails when the assumption is removed.</li>
+    <li>When all tests pass, identify the remaining unproved glyph.</li>
+    <li>Demand a certificate at that glyph.</li>
+  </ol>
+
+  <h3>14.5 Certificate-first epistemics</h3>
+  <p>
+    Existence and counterexample claims can compress to finite witnesses. Universal negative claims
+    usually cannot. When directing automated mathematics toward hard problems, prefer success states
+    whose verification cost is tiny relative to their discovery cost.
+  </p>
+
+  <h3>14.6 Infinity is part of the object</h3>
+  <p>
+    Poles, projective boundaries, ends of manifolds, and noncompact escape are not bookkeeping
+    nuisances. They often carry the obstruction that finite local calculations cannot see. The
+    Jacobian story is a particularly vivid instance: every finite derivative behaves perfectly,
+    while infinity breaks global invertibility.
+  </p>
+</section>
+
+<section class="chapter wide" id="glossary">
+  <h2>Glossary</h2>
+  <div class="grid2">
+    <div class="card"><strong>Affine space.</strong> Coordinate space with polynomial functions, \(\mathbb A^n=\operatorname{Spec}\mathbb C[x_1,\ldots,x_n]\).</div>
+    <div class="card"><strong>Projective space.</strong> Lines through the origin in \(\mathbb C^{n+1}\), recorded by homogeneous coordinates.</div>
+    <div class="card"><strong>Binary form.</strong> A homogeneous polynomial in two variables.</div>
+    <div class="card"><strong>Symmetric product.</strong> The quotient \(X^n/S_n\), parameterizing unordered tuples with multiplicity.</div>
+    <div class="card"><strong>Effective divisor.</strong> A formal nonnegative integer combination of points or codimension-one subvarieties.</div>
+    <div class="card"><strong>Twisted cubic.</strong> The degree-\(3\) Veronese image of \(\mathbb P^1\) in \(\mathbb P^3\).</div>
+    <div class="card"><strong>Small diagonal.</strong> The locus \(\{p+\cdots+p\}\) in a symmetric product.</div>
+    <div class="card"><strong>Tangent developable.</strong> The union of tangent lines to a curve.</div>
+    <div class="card"><strong>Fiber.</strong> The preimage \(f^{-1}(y)\) of one target point.</div>
+    <div class="card"><strong>Generic degree.</strong> The number of points in a typical finite fiber.</div>
+    <div class="card"><strong>Ramification.</strong> The source locus where a finite map fails to be locally unbranched.</div>
+    <div class="card"><strong>Branch locus.</strong> The image downstairs of the ramification locus.</div>
+    <div class="card"><strong>Discriminant.</strong> A parameter-space equation detecting degenerate members of a family.</div>
+    <div class="card"><strong>Étale.</strong> Algebraically locally isomorphic; in the smooth equal-dimensional case, differential invertible everywhere.</div>
+    <div class="card"><strong>Proper.</strong> A map that does not allow points to escape to infinity over bounded target sets.</div>
+    <div class="card"><strong>Finite map.</strong> An algebraic map whose coordinate ring extension is finite; geometrically, a proper map with finite fibers.</div>
+    <div class="card"><strong>Unit.</strong> An invertible element of a ring of regular functions.</div>
+    <div class="card"><strong>Picard group.</strong> Isomorphism classes of line bundles, or divisor classes under suitable hypotheses.</div>
+    <div class="card"><strong>\(\chi_c\).</strong> Euler characteristic with compact support, additive under algebraic cut-and-paste.</div>
+    <div class="card"><strong>Simply connected at infinity.</strong> Loops sufficiently far from a compact core can contract without returning through the core.</div>
+    <div class="card"><strong>Locally nilpotent derivation.</strong> A derivation whose sufficiently high iterate kills each ring element; it encodes a \(\mathbb G_a\)-action.</div>
+    <div class="card"><strong>Makar-Limanov invariant.</strong> The intersection of kernels of all locally nilpotent derivations.</div>
+    <div class="card"><strong>Cancellation.</strong> Recovering \(X\) from \(X\times\mathbb A^1\).</div>
+    <div class="card"><strong>Birational.</strong> Isomorphic only on dense open subsets; much weaker than globally isomorphic.</div>
+  </div>
+</section>
+
+<section class="chapter wide" id="reference-card">
+  <h2>One-page reference card</h2>
+  <div class="grid2">
+    <div class="card">
+      <h4>Exact polynomial certificate</h4>
+      \[
+      \begin{aligned}
+      u&=1+xy,\\
+      P&=u^3z+y^2u(4+3xy),\\
+      Q&=y+3xu^2z+3xy^2(4+3xy),\\
+      R&=2x-3x^2y-x^3z.
+      \end{aligned}
+      \]
+      \[
+      \det J_F=-2,\qquad \deg(P,Q,R)=(7,6,4).
+      \]
+    </div>
+    <div class="card">
+      <h4>Collision</h4>
+      \[
+      \begin{aligned}
+      &(0,0,-1/4),\\
+      &(1,-3/2,13/2),\\
+      &(-1,3/2,13/2)
+      \end{aligned}
+      \quad\mapsto\quad
+      (-1/4,0,0).
+      \]
+    </div>
+    <div class="card">
+      <h4>Root-marking map</h4>
+      \[
+      [u:v],[a:b:c]\mapsto
+      [ua:ub+va:uc+vb:vc].
+      \]
+      \[
+      R_\pi:\ av^2-buv+cu^2=0.
+      \]
+    </div>
+    <div class="card">
+      <h4>Chosen boundary</h4>
+      \[
+      H=\{B=0\},\qquad
+      \pi^{-1}(H):\ ub+va=0.
+      \]
+      Classes: \((2,1)\) and \((1,1)\).
+    </div>
+    <div class="card">
+      <h4>Twisted cubic</h4>
+      \[
+      [u:v]\mapsto[u^3:3u^2v:3uv^2:v^3].
+      \]
+      Tangent model: \(B=0\Rightarrow3u^2v=0\).
+    </div>
+    <div class="card">
+      <h4>The recognition ring</h4>
+      \[
+      \frac{\mathbb C[u,v,a,b,c]}
+      {(av+bu-1,\ av^2-buv+cu^2-1)}
+      \stackrel{?}{\cong}\mathbb C[s,t,w].
+      \]
+    </div>
+  </div>
+</section>
+
+<section class="chapter wide" id="reading">
+  <h2>Annotated reading list</h2>
+  <ol class="reference">
+    <li><strong>[foundational survey]</strong> H. Bass, E. Connell, D. Wright, “The Jacobian Conjecture: Reduction of Degree and Formal Expansion of the Inverse” (1982). The classical reduction-and-structure reference for the conjecture’s pre-counterexample landscape.</li>
+    <li><strong>[survey / classical geometry]</strong> L. Ein and R. Lazarsfeld, “Tangent Developable Surfaces and the Equations Defining Algebraic Curves,” <em>Bulletin of the AMS</em> 57 (2020). A modern survey centered on tangent developables, including the twisted cubic.</li>
+    <li><strong>[survey / affine recognition]</strong> N. Gupta, “The Zariski Cancellation Problem and Related Problems in Affine Algebraic Geometry” (ICM 2022 survey; arXiv:2208.14736). The best compact map of cancellation and neighboring recognition problems.</li>
+    <li><strong>[survey / topology at infinity]</strong> R. V. Gurjar, “A Tribute to a Work of C. P. Ramanujam” (2025), together with expository accounts of Ramanujam’s surface and characterization theorem.</li>
+    <li><strong>[textbook]</strong> M. Reid, <em>Undergraduate Algebraic Geometry</em>. Projective habits and concrete examples.</li>
+    <li><strong>[textbook]</strong> K. Smith et al., <em>An Invitation to Algebraic Geometry</em>. A fast route to varieties, morphisms, fibers, and divisors.</li>
+    <li><strong>[textbook]</strong> J. Harris, <em>Algebraic Geometry: A First Course</em>. Rational normal curves, Veronese embeddings, and projective intersection geometry.</li>
+    <li><strong>[topology]</strong> A. Hatcher, <em>Algebraic Topology</em>, covering-space material. The proper-local-homeomorphism intuition.</li>
+    <li><strong>[monograph]</strong> A. van den Essen, <em>Polynomial Automorphisms and the Jacobian Conjecture</em>. The former conjecture’s algebraic ecosystem.</li>
+    <li><strong>[affine group actions]</strong> G. Freudenburg, <em>Algebraic Theory of Locally Nilpotent Derivations</em>. The machinery behind Makar-Limanov invariants.</li>
+    <li><strong>[foundational recognition]</strong> C. P. Ramanujam, “A Topological Characterisation of the Affine Plane as an Algebraic Variety” (1971).</li>
+    <li><strong>[Russell cubic]</strong> Expositions by Kaliman, Makar-Limanov, Dubouloz, and Hoyois on Koras–Russell threefolds and additive-group invariants.</li>
+  </ol>
+
+  <div class="callout history">
+    <span class="label">Source note · July 2026</span>
+    The explicit counterexample and the symmetric-product interpretation entered public discussion
+    very recently. The determinant and collision are independently checkable algebra. Historical
+    priority, the discovery pathway, and the exact relationship between the polynomial coordinates
+    and the proposed geometric skeleton should be treated as provisional until archival writeups
+    stabilize.
+  </div>
+</section>
+
+</div>
+</main>
+
+<footer class="footer">
+  <strong>Hearing the Three Roots</strong><br>
+  A standalone Reader’s Guide. No browser storage is used. Interactive diagrams are schematic where
+  labeled; displayed algebraic identities are exact. Built for local reading, printing, and
+  screenshot-friendly study.
+</footer>
+
+<script>
+(function(){
+  const rail=document.getElementById('rail');
+  const menuBtn=document.getElementById('menuBtn');
+  menuBtn.addEventListener('click',()=>{
+    const open=rail.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded',String(open));
+  });
+
+  const links=[...document.querySelectorAll('#toc a')];
+  const sections=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  const observer=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id));
+      }
+    });
+  },{rootMargin:'-20% 0px -68% 0px',threshold:0});
+  sections.forEach(s=>observer.observe(s));
+  links.forEach(a=>a.addEventListener('click',()=>{rail.classList.remove('open');menuBtn.setAttribute('aria-expanded','false')}));
+
+  addEventListener('scroll',()=>{
+    const doc=document.documentElement;
+    const max=doc.scrollHeight-doc.clientHeight;
+    document.getElementById('progress').style.width=(max?100*scrollY/max:0)+'%';
+  },{passive:true});
+
+  // ---------- Root selector ----------
+  const svg=document.getElementById('rootSvg');
+  const roots=[document.getElementById('root1'),document.getElementById('root2'),document.getElementById('root3')];
+  const labels=[document.getElementById('label1'),document.getElementById('label2'),document.getElementById('label3')];
+  let rv=[-2,0.5,2.4];
+  const xmin=-3,xmax=3,x0=70,x1=730;
+  const toX=v=>x0+(v-xmin)/(xmax-xmin)*(x1-x0);
+  const toV=x=>xmin+(x-x0)/(x1-x0)*(xmax-xmin);
+  const tickG=document.getElementById('ticks');
+  for(let i=-3;i<=3;i++){
+    const x=toX(i);
+    tickG.insertAdjacentHTML('beforeend',`<line x1="${x}" y1="93" x2="${x}" y2="107" stroke="#8095a5"/><text x="${x}" y="128" text-anchor="middle" fill="#91a4af" font-size="13">${i}</text>`);
+  }
+  function fmt(n){return Math.abs(n)<1e-9?'0':(Math.round(n*100)/100).toString()}
+  function updateRoots(){
+    rv.forEach((v,i)=>{roots[i].setAttribute('cx',toX(v));labels[i].setAttribute('x',toX(v));labels[i].textContent='r'+(i+1)+' = '+fmt(v)});
+    const [a,b,c]=rv;
+    const e1=a+b+c,e2=a*b+a*c+b*c,e3=a*b*c;
+    const disc=(a-b)**2*(a-c)**2*(b-c)**2;
+    document.getElementById('rootPolynomial').innerHTML=
+      `f(t)=(t-${fmt(a)})(t-${fmt(b)})(t-${fmt(c)})<br>`+
+      `= t³ − (${fmt(e1)})t² + (${fmt(e2)})t − (${fmt(e3)})<br>`+
+      `Δ = ∏(rᵢ-rⱼ)² = ${fmt(disc)}`;
+    const cards=document.getElementById('rootCards');
+    cards.innerHTML=[
+      `<div class="sheet-a">(r₁, {r₂,r₃})</div>`,
+      `<div class="sheet-b">(r₂, {r₁,r₃})</div>`,
+      `<div class="sheet-c">(r₃, {r₁,r₂})</div>`
+    ].join('');
+    const eps=.045;
+    const eq12=Math.abs(a-b)<eps,eq13=Math.abs(a-c)<eps,eq23=Math.abs(b-c)<eps;
+    let html='';
+    if(eq12&&eq13){
+      html=`<span class="status-bad">Triple root:</span> Δ=0. All three marked presentations lie in ramification; after deleting Rπ the fiber is empty. This is the small diagonal / twisted cubic.`;
+      cards.children[0].textContent+=' · ramified';cards.children[1].textContent+=' · ramified';cards.children[2].textContent+=' · ramified';
+    }else if(eq12||eq13||eq23){
+      html=`<span class="status-warn">Double root:</span> Δ=0. The marking by the simple root remains unramified; the marking by the repeated root is deleted.`;
+      if(eq12){cards.children[0].textContent+=' · ramified';cards.children[1].textContent+=' · ramified';cards.children[2].textContent+=' · unramified'}
+      if(eq13){cards.children[0].textContent+=' · ramified';cards.children[2].textContent+=' · ramified';cards.children[1].textContent+=' · unramified'}
+      if(eq23){cards.children[1].textContent+=' · ramified';cards.children[2].textContent+=' · ramified';cards.children[0].textContent+=' · unramified'}
+    }else{
+      html=`<span class="status-good">Three distinct roots:</span> Δ≠0. The cubic has three unramified marked-root preimages.`;
+      [...cards.children].forEach(c=>c.textContent+=' · unramified');
+    }
+    document.getElementById('rootStatus').innerHTML=html;
+  }
+  function dragRoot(i,e){
+    e.preventDefault();
+    const rect=svg.getBoundingClientRect();
+    const move=ev=>{
+      const x=(ev.clientX-rect.left)/rect.width*800;
+      rv[i]=Math.max(xmin,Math.min(xmax,toV(x)));
+      updateRoots();
+    };
+    const up=()=>{removeEventListener('pointermove',move);removeEventListener('pointerup',up)};
+    addEventListener('pointermove',move);addEventListener('pointerup',up);
+  }
+  roots.forEach((r,i)=>{
+    r.addEventListener('pointerdown',e=>dragRoot(i,e));
+    r.addEventListener('keydown',e=>{
+      if(e.key==='ArrowLeft'||e.key==='ArrowRight'){
+        rv[i]+=e.key==='ArrowLeft'?-0.1:0.1;rv[i]=Math.max(xmin,Math.min(xmax,rv[i]));updateRoots();
+      }
+    });
+  });
+  document.querySelectorAll('#rootWidget [data-preset]').forEach(b=>b.addEventListener('click',()=>{
+    const p=b.dataset.preset;
+    rv=p==='distinct'?[-2,.5,2.4]:p==='double'?[-1,-1,2]:p==='triple'?[.5,.5,.5]:[-2,.5,2.4];
+    updateRoots();
+  }));
+  updateRoots();
+
+  // ---------- Contact studio ----------
+  const contactSelect=document.getElementById('contactSelect');
+  function updateContact(){
+    const v=contactSelect.value;
+    const plane=document.getElementById('contactPlane');
+    const cap=document.getElementById('contactCaption');
+    const alg=document.getElementById('contactAlgebra');
+    if(v==='generic'){
+      plane.setAttribute('d','M95,60 L735,110 L675,180 L115,135 Z');
+      cap.textContent='three transverse intersections';
+      alg.innerHTML=`Example hyperplane: A + D = 0<br>Pullback: u³ + v³ = 0<br>Over ℂ: three simple roots → divisor p + q + r.`;
+    }else if(v==='tangent'){
+      plane.setAttribute('d','M115,190 L700,80 L725,145 L140,250 Z');
+      cap.textContent='contact order 2';
+      alg.innerHTML=`Exact preset: H = {B = 0}<br>Pullback: B(ν₃([u:v])) = 3u²v<br>Intersection divisor: 2[0:1] + [1:0].<br>The plane contains the tangent line at [0:1] but is not the osculating plane.`;
+    }else{
+      plane.setAttribute('d','M70,255 L585,45 L750,95 L250,295 Z');
+      cap.textContent='contact order 3';
+      alg.innerHTML=`Exact preset: H = {D = 0}<br>Pullback: D(ν₃([u:v])) = v³<br>Intersection divisor: 3[1:0].<br>The hyperplane equals the osculating plane at that point.`;
+    }
+  }
+  contactSelect.addEventListener('change',updateContact);
+  document.getElementById('contactReset').addEventListener('click',()=>{contactSelect.value='generic';updateContact()});
+  updateContact();
+
+  // ---------- Euler lab ----------
+  const eulerSelect=document.getElementById('eulerSelect');
+  const finiteToggle=document.getElementById('finiteToggle');
+  const qRange=document.getElementById('qRange');
+  function updateEuler(){
+    const v=eulerSelect.value,q=Number(qRange.value);
+    document.getElementById('qValue').textContent=q;
+    const B=document.getElementById('lineB');
+    const cap=document.getElementById('fiberCaption');
+    let base='';
+    if(v==='generic'){
+      B.setAttribute('x1','300');B.setAttribute('y1','265');B.setAttribute('x2','570');B.setAttribute('y2','120');
+      cap.textContent='two distinct lines in every fiber';
+      base=`Generic H: every fiber is P² \\ (L₁∪L₂) ≅ Gₘ×A¹.<br>χc(fiber)=0, hence χc(total)=0. This immediately rules out A³.`;
+    }else if(v==='tangent'){
+      B.setAttribute('x1','242');B.setAttribute('y1','244');B.setAttribute('x2','502');B.setAttribute('y2','91');
+      cap.textContent='one special coincident-line fiber';
+      base=`Tangent-not-osculating H: generic fiber χc=0; one special fiber is P²\\L ≅ A² with χc=1.<br>χc(X)=1. Necessary for A³, not sufficient.`;
+    }else{
+      B.setAttribute('x1','242');B.setAttribute('y1','244');B.setAttribute('x2','502');B.setAttribute('y2','91');
+      cap.textContent='coarse count can look similar';
+      base=`Osculating model: the coarse fiber count may again produce χc=1.<br>But a coordinate model such as D=0 pulls back to vc=0, a reducible boundary. Finer divisor/unit data changes.`;
+    }
+    if(finiteToggle.checked){
+      if(v==='tangent'){
+        base+=`<br><br>Over F_${q}: special q²=${q*q}; other q fibers each q²−q=${q*q-q}.<br>Total ${q*q}+${q}·${q*q-q}=${q**3}=q³.`;
+      }else{
+        base+=`<br><br>Finite-field mode is illustrative only; the tangent formula q²+q(q²−q)=q³ is the clean tuned case.`;
+      }
+    }
+    document.getElementById('eulerReadout').innerHTML=base;
+  }
+  [eulerSelect,finiteToggle,qRange].forEach(el=>el.addEventListener('input',updateEuler));
+  document.getElementById('eulerReset').addEventListener('click',()=>{eulerSelect.value='tangent';finiteToggle.checked=false;qRange.value=5;updateEuler()});
+  updateEuler();
+
+  // ---------- Certificate console ----------
+  function mapF(x,y,z){
+    const u=1+x*y;
+    return [
+      u**3*z+y*y*u*(4+3*x*y),
+      y+3*x*u*u*z+3*x*y*y*(4+3*x*y),
+      2*x-3*x*x*y-x*x*x*z
+    ];
+  }
+  function detJNumeric(x,y,z){
+    const u=1+x*y;
+    // exact analytic partial derivatives of the displayed polynomials
+    const Px=3*y*u*u*z + y*y*( y*(4+3*x*y) + 3*y*u );
+    const Py=3*x*u*u*z + 2*y*u*(4+3*x*y) + y*y*( x*(4+3*x*y) + 3*x*u );
+    const Pz=u**3;
+
+    const Qx=3*u*u*z + 6*x*y*u*z + 3*y*y*(4+3*x*y) + 9*x*y**3;
+    const Qy=1 + 6*x*x*u*z + 6*x*y*(4+3*x*y) + 9*x*x*y*y;
+    const Qz=3*x*u*u;
+
+    const Rx=2-6*x*y-3*x*x*z;
+    const Ry=-3*x*x;
+    const Rz=-(x**3);
+
+    return Px*(Qy*Rz-Qz*Ry)-Py*(Qx*Rz-Qz*Rx)+Pz*(Qx*Ry-Qy*Rx);
+  }
+  const out=document.getElementById('certReadout');
+  function evalCert(){
+    const x=Number(document.getElementById('cx').value),y=Number(document.getElementById('cy').value),z=Number(document.getElementById('cz').value);
+    const f=mapF(x,y,z),d=detJNumeric(x,y,z);
+    out.innerHTML=`F(${x}, ${y}, ${z}) = (${f.map(v=>Number(v.toFixed(10))).join(', ')})<br>Numerical det J = ${Number(d.toFixed(10))}<br><span class="status-warn">Sampling is not a proof of constancy.</span>`;
+  }
+  document.getElementById('evalCert').addEventListener('click',evalCert);
+  document.getElementById('revealCert').addEventListener('click',()=>{
+    out.innerHTML=`<span class="status-good">Exact symbolic identity:</span><br>det J_F + 2 ≡ 0 as a polynomial in ℚ[x,y,z].<br><br>A computer algebra system verifies this by exact differentiation, determinant expansion, and polynomial simplification—no floating point is involved.`;
+  });
+
+  // tiny BigInt rational arithmetic for exact collision display
+  class Frac{
+    constructor(n,d=1n){n=BigInt(n);d=BigInt(d);if(d<0n){n=-n;d=-d}const g=Frac.gcd(n<0n?-n:n,d);this.n=n/g;this.d=d/g}
+    static gcd(a,b){while(b){const t=a%b;a=b;b=t}return a||1n}
+    add(o){o=Frac.of(o);return new Frac(this.n*o.d+o.n*this.d,this.d*o.d)}
+    sub(o){o=Frac.of(o);return new Frac(this.n*o.d-o.n*this.d,this.d*o.d)}
+    mul(o){o=Frac.of(o);return new Frac(this.n*o.n,this.d*o.d)}
+    pow(k){let r=new Frac(1n),a=this;while(k-- >0)r=r.mul(a);return r}
+    toString(){return this.d===1n?String(this.n):`${this.n}/${this.d}`}
+    static of(o){return o instanceof Frac?o:new Frac(o)}
+  }
+  function exactF(x,y,z){
+    const one=new Frac(1n),two=new Frac(2n),three=new Frac(3n),four=new Frac(4n);
+    const u=one.add(x.mul(y));
+    const P=u.pow(3).mul(z).add(y.pow(2).mul(u).mul(four.add(three.mul(x).mul(y))));
+    const Q=y.add(three.mul(x).mul(u.pow(2)).mul(z)).add(three.mul(x).mul(y.pow(2)).mul(four.add(three.mul(x).mul(y))));
+    const R=two.mul(x).sub(three.mul(x.pow(2)).mul(y)).sub(x.pow(3).mul(z));
+    return [P,Q,R];
+  }
+  document.getElementById('collisionCert').addEventListener('click',()=>{
+    const pts=[
+      [new Frac(0n),new Frac(0n),new Frac(-1n,4n)],
+      [new Frac(1n),new Frac(-3n,2n),new Frac(13n,2n)],
+      [new Frac(-1n),new Frac(3n,2n),new Frac(13n,2n)]
+    ];
+    out.innerHTML=pts.map(p=>`F(${p.map(v=>v.toString()).join(', ')}) = (${exactF(...p).map(v=>v.toString()).join(', ')})`).join('<br>')+
+      `<br><br><span class="status-good">All three exact rational images agree.</span>`;
+  });
+  document.getElementById('resetCert').addEventListener('click',()=>{
+    document.getElementById('cx').value=0;document.getElementById('cy').value=0;document.getElementById('cz').value=-.25;evalCert();
+  });
+  evalCert();
+})();
+</script>
+</body>
+</html>
