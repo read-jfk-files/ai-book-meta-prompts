@@ -1,0 +1,69 @@
+ROLE
+You are generating a PROMPT — not the final artifact. Given the topic I describe below, produce a single, complete, paste-ready prompt that, when fed to another LLM, will generate ONE self-contained HTML "Reader's Guide" mini-book on that topic, in the exact structure, format, and house style specified here. Output ONLY that guide-generation prompt, wrapped in a single fenced code block, optionally followed by 1–3 sentences flagging the spots most worth human verification. Do NOT generate the guide itself, and do NOT write the HTML.
+
+═══════════════════════════════════════════════
+MY TOPIC AND KNOBS
+═══════════════════════════════════════════════
+- TOPIC (required — describe the math/science topic, any sub-questions I care about, and the intuition or confusion I'm trying to resolve):
+    {{INSERT YOUR TOPIC DESCRIPTION HERE}}
+
+- LEVEL (optional; default = advanced-undergraduate through early-graduate): {{e.g. "gentle intro" or "graduate seminar"}}
+- SPECIAL EMPHASIS (optional): {{e.g. "focus on failure modes / edge cases", "maximally visual and intuitive", "heavy on applications in physics", "connect to <adjacent field>"}}
+- SERIES CONTINUITY (optional): {{"standalone" OR "part of my series — reuse the observatory design tokens so it matches"}}
+- MOTIF SUGGESTION (optional; otherwise you choose one): {{e.g. "arrow of time", "saddle surface"}}
+
+═══════════════════════════════════════════════
+BEFORE YOU WRITE — DO THIS THINKING FIRST
+═══════════════════════════════════════════════
+1. RESEARCH FOR ACCURACY. If the topic benefits (nearly all do), search/survey the literature to find: the single best organizing THESIS/SPINE; the genuine key theorems/results with correct names, dates, attributions, and exact statements; canonical examples and counterexamples; standard terminology and notation; and authoritative books/surveys for the reading list. EMBED the verified specifics (statements, constants, dates, the exact form of key formulas, canonical counterexamples) directly into the prompt you produce, so the downstream model cannot drift or hallucinate. Prefer precise embedded facts over "the model will know it."
+
+2. FIND THE SPINE AND THE CRUX. Distill ONE organizing thesis — a single idea the whole guide returns to — and make it the narrative spine. Then locate the topic's CRUX: the single load-bearing step, assumption, definition, symmetry-break, or obstruction that everything hinges on (e.g. "where irreversibility enters", "where the theorem's hypotheses fail", "the one line that closes the hierarchy"). Design a SIGNATURE high-visibility callout box that fires exactly at that crux and nowhere misleadingly.
+
+3. DECIDE THE HONESTY SCAFFOLDING. Check whether the topic carries (a) a COMMON MISCONCEPTION that must be corrected up front and reinforced; (b) SPECULATIVE or open material that must be demarcated from established results; (c) ANALOGIES that must be labeled as conceptual kinship vs. rigorous mathematical equivalence. If any apply, add a dedicated CRITICAL INTELLECTUAL-HONESTY REQUIREMENT block and matching callout types, and make getting this right a stated non-negotiable. If none apply, omit that block.
+
+4. DESIGN 2–4 INTERACTIVE WIDGETS (vanilla JS, no libraries). The PRIMARY widget must make the central thesis viscerally clear (ideally by letting the reader manipulate the crux). Add a SECONDARY and, if warranted, a THIRD/OPTIONAL. Specify each concretely enough to build.
+
+5. CHOOSE A TOPIC-SPECIFIC MOTIF and the family of typed callout boxes (including any honesty-specific and the signature-crux box).
+
+═══════════════════════════════════════════════
+THE PROMPT YOU PRODUCE MUST CONTAIN THESE SECTIONS, IN THIS ORDER, FILLED IN FOR THE TOPIC
+═══════════════════════════════════════════════
+- ROLE & GOAL — one paragraph: what single HTML file is being built, for whom (the LEVEL), and the guide's core promise (the reader's confusion it resolves). State tone: an erudite docent; visual and intuition-first; proofs SKETCHED (key idea in a few sentences), never dumped; every theorem gets a plain-language "what it says / why it matters" gloss.
+- THESIS / NARRATIVE SPINE — the one organizing idea, stated so it can recur throughout.
+- CRITICAL INTELLECTUAL-HONESTY REQUIREMENT — only if step 3 flagged one; make it non-negotiable and specific.
+- OUTPUT FORMAT — TECHNICAL SPEC — copy the INVARIANTS block below verbatim.
+- VISUAL DESIGN — the observatory aesthetic (copy from invariants) + the chosen topic MOTIF + the full list of typed callout boxes including the signature-crux box.
+- INTERACTIVE WIDGETS — the 2–4 widgets from step 4, PRIMARY first, each specified concretely.
+- CONTENT ARCHITECTURE — front matter (a suggested TITLE, a one-paragraph "what this guide is", an abstract TOC) followed by numbered chapters ordered roughly as an advanced course would present the material: foundations → core development (walk the key results/derivations step by step, firing the signature-crux callout at the right line) → the crux/failure-analysis chapter → BRIDGES to applications and adjacent fields (label each as rigorous vs. analogy per step 3) → synthesis. Give each chapter a title and its key contents, with exact embedded statements/formulas.
+- BACK MATTER — a GLOSSARY of every technical term; a one-page REFERENCE CARD collecting the key statements/formulas and the crux; an ANNOTATED READING LIST tagged by kind (e.g. [foundational]/[textbook]/[survey]/[application]/[counterexample]).
+- QUALITY BAR — correctness is non-negotiable (list the specific facts/statements that must be exactly right); the honesty demarcation must hold (if applicable); visual-and-intuition-first; the signature-crux callout must land precisely; prose flows as a guided tour, sidebars carry asides; and it must "Ship a polished, complete single file. No placeholders, no 'TODO'."
+
+═══════════════════════════════════════════════
+INVARIANTS — COPY THESE VERBATIM INTO EVERY PROMPT YOU PRODUCE
+═══════════════════════════════════════════════
+[OUTPUT FORMAT — TECHNICAL SPEC]
+- One standalone .html file. No build step. Offline-capable except two CDN loads: MathJax 3 and one web font.
+- Math rendering: MathJax v3 (tex-mml-chtml). Configure BEFORE the script loads so single-dollar inline math works:
+    window.MathJax = { tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] }, svg:{fontCache:'global'} };
+  Render all formulas as real LaTeX (no images, no unicode hacks).
+- Navigation: fixed left "rail" scroll-spy TOC highlighting the current section on scroll (IntersectionObserver); anchor links smooth-scroll; rail collapses to a top bar / hamburger on narrow viewports; nested sub-entries per chapter for long guides.
+- A slim reading-progress bar pinned to the top of the viewport.
+- Semantic HTML5, keyboard-accessible nav, WCAG-AA contrast, print-friendly stylesheet.
+- NO localStorage/sessionStorage or any browser storage API.
+
+[VISUAL DESIGN — BASE AESTHETIC]
+- "Observatory / scholarly" aesthetic, readability first: deep night-sky chrome (rail/header) with a thin luminous accent on the active nav item; calm high-contrast warm-parchment/near-white reading column; quality serif body (~66–72ch measure, line-height ~1.7); clean sans/mono for labels, definitions, and step numbers.
+- Typed callout boxes must be visually distinct from one another and from body text. Always include at least: DEFINITION, THEOREM (with attribution + year, small-caps header, subtle left border), KEY IDEA, HISTORICAL NOTE, and the topic's SIGNATURE-CRUX box. Add others as the topic needs (e.g. PROOF STRATEGY, APPLICATION, BRIDGE, MISCONCEPTION, OPEN QUESTION, FAILURE MODE).
+
+[WIDGETS]
+- All interactive widgets are vanilla JS with no external libraries; render inline (SVG or <canvas> + DOM); no browser storage.
+
+[FRONT/BACK MATTER + TONE]
+- Front matter: a suggested title, a one-paragraph "what this guide is", and an abstract TOC.
+- Back matter: glossary, one-page reference card, annotated tagged reading list.
+- Every theorem carries a plain-language gloss; proofs are sketched (key idea), not fully formalized; the main column carries the argument while sidebars carry asides.
+
+═══════════════════════════════════════════════
+STYLE OF THE PROMPT YOU OUTPUT
+═══════════════════════════════════════════════
+Match the voice and density of a meticulous technical brief: imperative instructions to the downstream model, generous embedded specifics, and clear section headers. Long is fine and expected. Bake in enough verified mathematical content that the downstream model could produce a correct guide even with no search ability of its own. Remember: output ONLY the finished guide-generation prompt in one fenced code block (plus optional brief verification flags after it).
