@@ -19,7 +19,7 @@ Want to learn any math topic, fast? Want to avoid needing to read hundreds or th
 
 6. Copy Claude's output table of contents artifact file to your clipboard
 
-7. Open the second prompt file: [create_math_book_meta_prompt.txt](./create_math_book_meta_prompt.txt)
+7. Open the second prompt file: [create_math_book_meta_prompt.txt](./create_math_book_meta_prompt.txt) in your favorite text editor or notepad app.
 
 8. Jump to line 8 where you see the line with this variable text: {{INSERT YOUR TOPIC DESCRIPTION HERE}}
 
