@@ -9,7 +9,7 @@ Want to learn any math topic, fast? Want to avoid needing to read hundreds or th
 
 1. Use the [table_of_contents_prompt.txt](./table_of_contents_prompt.txt) file to prompt Claude to generate a table of contents. You can use ChatGPT if you prefer. The reason I use Claude to generate the Table of Contents, but ChatGPT to create the HTML book is because Claude seems to be slightly better than ChatGPT at constructing a table of contents. Claude is more pedantic and appears to fact check more than ChatGPT. I have no evidence, but I believe there is an adversarial AI boost effect, where ChatGPT can recognize that the table of contents came from Claude, so that makes ChatGPT "work harder" to compete against Claude, resulting in a better final output.
 
-2. If you plan to use this system to generate multiple math mini-books, you will want to create a "Project" within Claude, name it "Math Readers Guides" or whatever you want, and then set the file table_of_contents_prompt as the project system prompt, so that it will be prepended to every prompt you submit. Then you can just ask Claude "create a table of contents about the topic of XYZ in math."
+2. If you plan to use this system to generate multiple math mini-books, you will want to create a "Project" within Claude, name it "Math Readers Guides" or whatever you want, and then set the file [table_of_contents_prompt.txt](./table_of_contents_prompt.txt) as the project system prompt, so that it will be prepended to every prompt you submit. Then you can just ask Claude "create a table of contents about the topic of XYZ in math."
 
 3. Then also create a Project within ChatGPT, and set the file [chatgpt_math_book_project_prompt.txt](./chatgpt_math_book_project_prompt.txt) as the system prompt.
 
